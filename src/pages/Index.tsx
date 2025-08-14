@@ -1,14 +1,24 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import React from 'react';
+import { useAuth } from '@/contexts/AuthContext';
+import { AuthForm } from '@/components/AuthForm';
+import { Dashboard } from '@/components/Dashboard';
+import { Loader2 } from 'lucide-react';
 
 const Index = () => {
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+  const { isAuthenticated, isLoading } = useAuth();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-github-canvas">
+        <div className="flex items-center space-x-2">
+          <Loader2 className="h-6 w-6 animate-spin" />
+          <span>Loading...</span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
+
+  return isAuthenticated ? <Dashboard /> : <AuthForm />;
 };
 
 export default Index;
